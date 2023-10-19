@@ -22,6 +22,7 @@ input()
 
 ventana = driver.find_element(By.XPATH,'//*[@id="window1"]')
 ventana.click()
+
 sleep(3)
 
 ventana.send_keys('q')
