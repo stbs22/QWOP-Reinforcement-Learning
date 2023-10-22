@@ -2,6 +2,27 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from time import sleep
+import sys
+
+def prettyException(ex):
+    print(f'__________________\nExcepción:\t{sys.exc_info()[0]}\nMensaje:\t{ ":".join(str(ex).split(":")[:-1]) }\nInfo:\t\t{ex.__traceback__}\n__________________\n')
+
+def press(tecla,driver=driver):
+    driver.execute_script("""
+        var tecla = arguments[0];
+                          
+        function simulateKeyPress(key) {
+            const event = new KeyboardEvent('keydown', { key });
+            textField.dispatchEvent(event);
+        }
+
+        function press(key) {
+            simulateKeyPress(key);
+        }
+
+        simulateKeyPress(tecla);
+    """, tecla)
+
 opciones = webdriver.ChromeOptions()
 # opciones.add_argument("")
 
@@ -17,44 +38,47 @@ for xpath in xpaths:
         var element = arguments[0];
         element.parentNode.removeChild(element);
     """, element)
-sleep(.1)
-
-input("wait")
+sleep(1)
 
 ventana = driver.find_element(By.XPATH,'//*[@id="window1"]')
 ventana.click()
 
-# driver.execute_script("""
-# function simulateKeyPress(key) {
-#     const event = new KeyboardEvent('keydown', { key });
-#     textField.dispatchEvent(event);
-# }
-
-# function press(key) {
-#     simulateKeyPress(key);
-# }
-# """)
-
-# def press(key,driver=driver):
-#     driver.execute_script("""
-#         var key = arguments[0];
-#         simulateKeyPress(key);
-#     """, key)
-
 sleep(3)
 
 while True:
-    input("send key q")
-    driver.execute_script('document.dispatchEvent(new KeyboardEvent("keydown", { key: "q" }))')  # Presiona la tecla 'Q'press("q")
+    try:
+        input("enter pa send key q")
+        driver.execute_script('document.dispatchEvent(new KeyboardEvent("keydown", { key: "q" }))')
+    except Exception as e:
+        prettyException(e)
+        pass
 
-input("send key w")
-press("w")
+    try:
+        input("enter pa send key w")
+        press("w")
+    except Exception as e:
+        prettyException(e)
+        pass
 
-input("send key o")
-press("o")
+    try:
+        input("enter pa send key o")
+        ventana.send_keys("o")
+    except Exception as e:
+        prettyException(e)
+        pass
 
-input("send key p")
-press("p")
+    try:
+        input("enter pa send key p")
+        press("p")
+    except Exception as e:
+        prettyException(e)
+        pass 
+
+
+    
+
+
+
 
 input("enter pa cerrar")
 driver.quit()

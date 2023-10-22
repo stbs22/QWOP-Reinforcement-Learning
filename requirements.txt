@@ -2,3 +2,4 @@ selenium==4.14.0
 selenium-driver-updater==6.0.2
 pymunk==6.5.1
 pygame==2.5.2
+gymnasium==0.29.1
